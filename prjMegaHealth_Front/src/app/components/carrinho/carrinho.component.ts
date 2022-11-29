@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { CarrinhoService } from 'src/app/components/services/carrinho.service';
 import { Produto } from 'src/app/models/Produto';
@@ -16,7 +17,7 @@ export class CarrinhoComponent implements OnInit {
   private storage: Storage;
   img!: string;
 
-  constructor() { // private carrinhoService: CarrinhoService
+  constructor(private router: Router) { // private carrinhoService: CarrinhoService
     this.storage = window.localStorage;
   }
 
@@ -62,7 +63,7 @@ export class CarrinhoComponent implements OnInit {
     return this.produtos, this.totalGeral;
   }
 
-  
+
   removerProduto(produto: Produto) {
     var produtoLocalStorage = localStorage.getItem("produtoLocalStorage");
     if(produtoLocalStorage){
@@ -75,7 +76,15 @@ export class CarrinhoComponent implements OnInit {
   }
 
   efetuarPedido(){
-    localStorage.removeItem("produtoLocalStorage");
+    var name = localStorage.getItem("name")
+    if(name){
+      this.router.navigate(['/confirmar pedido'])
+      localStorage.removeItem("produtoLocalStorage");
+    }else{
+      alert('Efetue o login para continuar a compra')
+      this.router.navigate(['/login'])
+    }
+
     // localStorage.refresh
   }
 

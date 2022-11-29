@@ -24,7 +24,7 @@ export class ProdutosComponent implements OnInit {
   img: string = "";
   ngOnInit(): void {
 
-    this.carrinhoCompras = new CarrinhoComponent();
+    this.carrinhoCompras = new CarrinhoComponent(this.router);
     this.http.get("http://localhost:5270/api/Produto")
       .subscribe(produtos => {
         this.produtos = produtos;
